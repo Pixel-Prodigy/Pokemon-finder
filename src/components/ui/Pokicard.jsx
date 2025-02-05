@@ -41,7 +41,7 @@ export function Pokicard({ pokeName, pokeDataUrl, ...props }) {
           onClick={() => setShow(false)}
         >
           <div
-            className="absolute z-20 flex flex-col border-4 border-white bg items-center justify-center w-80 h-80 p-3 transform rounded-md -translate-x-1/2 -translate-y-1/2 bg-black text-white  top-1/2 left-1/2"
+            className="absolute  z-20 flex flex-col border-4  border-white bg items-center justify-center w-80 h-80 p-3 transform rounded-md -translate-x-1/2 -translate-y-1/2 bg-black text-white  top-1/2 left-1/2"
             style={{
               backgroundImage:
                 "url('https://w0.peakpx.com/wallpaper/569/169/HD-wallpaper-spots-dots-black-and-white-black-thumbnail.jpg')",
@@ -51,8 +51,13 @@ export function Pokicard({ pokeName, pokeDataUrl, ...props }) {
               {pokeName.toUpperCase()}
             </h2>
             <h2 className="text-2xl mb-3 font-semibold">Pokémon Facts</h2>
-            <p className="font-semibold text-xl mb-2">Height: {pokeAbilities.pokeHeight}</p>
-            <p className="font-semibold text-xl mb-2"> Weight: {pokeAbilities.pokeWeight}</p>
+            <p className="font-semibold text-xl mb-2">
+              Height: {pokeAbilities.pokeHeight}
+            </p>
+            <p className="font-semibold text-xl mb-2">
+              {" "}
+              Weight: {pokeAbilities.pokeWeight}
+            </p>
             <p className="font-semibold text-xl mb-2">
               Abilities:{" "}
               {pokeAbilities.pokePowers.map((ability, index) => (
@@ -63,7 +68,7 @@ export function Pokicard({ pokeName, pokeDataUrl, ...props }) {
         </div>
       )}
       <div
-        className={`grid  grid-cols-2  border-2 border-black rounded-md shadow-sm cursor-pointer py-2 px-2 h-44 transition-all ease-in-out duration-300 
+        className={`grid w-44 grid-cols-2  border-2 border-black rounded-md shadow-sm cursor-pointer py-2 px-2 h-44 transition-all ease-in-out duration-300 
     hover:scale-105 hover:underline hover:text-2xl  
     ${
       isLiked
