@@ -9,14 +9,16 @@ export function SearchBar() {
   function findPokemon() {
     const searchTerm = search.toLowerCase();
 
-    const foundPokemon = fetchData.find((elem) => elem.name.toLowerCase() === searchTerm);
+    const foundPokemon = fetchData.find(
+      (elem) => elem.name.toLowerCase() === searchTerm
+    );
 
     if (foundPokemon) {
-      setSearchNames(searchTerm);  
+      setSearchNames(searchTerm);
     } else {
-      setSearchNames("pokemon not found"); 
+      setSearchNames("pokemon not found");
     }
-    setValue(""); 
+    setValue("");
   }
 
   function handleKeyPress(e) {
@@ -26,7 +28,7 @@ export function SearchBar() {
   }
 
   return (
-    <div className="flex flex-col items-center mb-6 justify-center h-24 gap-2 text-white">
+    <div className="flex flex-col items-center mb-6 justify-center h-fit gap-2 text-white">
       <input
         onChange={(e) => {
           setSearch(e.target.value);
@@ -36,11 +38,11 @@ export function SearchBar() {
         type="text"
         value={value}
         placeholder="Search Pokemon"
-        className="h-10 px-4 text-black border-2 rounded-md focus:outline-none w-80"
+        className="h-12 px-4 text-black border-2 rounded-md focus:outline-none w-80"
       />
       <button
         onClick={findPokemon}
-        className="h-10 transition-colors duration-300 mt-3 bg-black rounded-md w-38 hover:border-2 active:scale-105 hover:bg-transparent hover:text-black"
+        className="h-12 transition-colors duration-300 mt-3 bg-black rounded-md w-38 hover:border-2 active:scale-105 hover:bg-transparent hover:text-black"
       >
         Submit
       </button>
