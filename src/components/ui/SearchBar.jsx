@@ -16,7 +16,7 @@ export function SearchBar() {
     if (foundPokemon) {
       setSearchNames(searchTerm);
     } else {
-      setSearchNames("pokemon not found");
+      setSearchNames(`pokemon not found`);
     }
     setValue("");
   }

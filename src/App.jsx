@@ -27,7 +27,7 @@ function App() {
   return (
     <ContextProvider fetchData={data}>
       <div className="flex flex-col items-center justify-center bg-grey-600 p-12 ">
-        <h2 className="text-3xl font-semibold">
+        <h2 className="text-3xl text-center font-semibold">
           Find facts about yours favorite Pokemon
         </h2>
         <h3 className="text-lg text-gray-600 mb-8">

@@ -9,8 +9,6 @@ export function PokeCards() {
   const { toggleShow, show } = useContext(Context);
   const [findObj, setFindObj] = useState("");
   const [nothingFound, setNothingFound] = useState(false);
- 
-  console.log(searchNames)
   useEffect(() => {
     if (searchNames) {
       if (searchNames === "pokemon not found") {
