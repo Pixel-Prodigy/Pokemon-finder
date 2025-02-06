@@ -2,19 +2,21 @@ import React, { useContext, useState } from "react";
 import { Context } from "./Context";
 
 export function SearchBar() {
-  const { fetchData, setSearchNames } = useContext(Context);
+  const { fetchData, setSearchNames, searchNames } = useContext(Context);
   const [search, setSearch] = useState("");
   const [value, setValue] = useState("");
 
   function findPokemon() {
-    fetchData.map((elem) => {
-      if (elem.name.toLowerCase() === search.toLowerCase()) {
-        setSearchNames(search.toLowerCase());
-      } else {
-        console.log("Pokemon not found");
-      }
-    });
-    setValue("");
+    const searchTerm = search.toLowerCase();
+
+    const foundPokemon = fetchData.find((elem) => elem.name.toLowerCase() === searchTerm);
+
+    if (foundPokemon) {
+      setSearchNames(searchTerm);  
+    } else {
+      setSearchNames("pokemon not found"); 
+    }
+    setValue(""); 
   }
 
   function handleKeyPress(e) {
@@ -42,6 +44,8 @@ export function SearchBar() {
       >
         Submit
       </button>
+
+      <p>{searchNames}</p>
     </div>
   );
 }
