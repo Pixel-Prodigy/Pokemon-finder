@@ -37,7 +37,7 @@ export function Pokicard({ pokeName, pokeDataUrl, ...props }) {
     <>
       {show && (
         <div
-          className="absolute top-0 left-0 z-10 w-screen h-full bg-black/50"
+          className="fixed top-0 left-0 z-10 w-screen h-full bg-black/50"
           onClick={() => setShow(false)}
         >
           <div
@@ -68,7 +68,7 @@ export function Pokicard({ pokeName, pokeDataUrl, ...props }) {
         </div>
       )}
       <div
-        className={`grid w-44 grid-cols-2  border-2 border-black rounded-md shadow-sm cursor-pointer py-2 px-2 h-44 transition-all ease-in-out duration-300 
+        className={`grid  grid-cols-2  border-2 border-black rounded-md shadow-sm cursor-pointer py-2 px-2 h-56 transition-all ease-in-out duration-300 
     hover:scale-105 hover:underline hover:text-2xl  
     ${
       isLiked

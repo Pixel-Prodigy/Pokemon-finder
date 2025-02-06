@@ -26,10 +26,13 @@ function App() {
 
   return (
     <ContextProvider fetchData={data}>
-
-      <div className="flex flex-col items-center justify-center h-screen bg-grey-600 p-12 ">
-        <h2 className="text-3xl font-semibold">Find facts about yours favorite Pokemon</h2>
-        <h3 className="text-lg text-gray-600 mb-8">Make sure to type name correctly </h3>
+      <div className="flex flex-col items-center justify-center bg-grey-600 p-12 ">
+        <h2 className="text-3xl font-semibold">
+          Find facts about yours favorite Pokemon
+        </h2>
+        <h3 className="text-lg text-gray-600 mb-8">
+          Make sure to type name correctly{" "}
+        </h3>
         {<PokeCards />}
       </div>
     </ContextProvider>
