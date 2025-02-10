@@ -12,7 +12,7 @@ function App() {
     fetch("https://pokeapi.co/api/v2/pokemon")
       .then((res) => res.json())
       .then((data) => {
-        setData(data.results);
+        setData(data?.results);
         setLoading(false);
       })
       .catch((error) => {
@@ -20,6 +20,7 @@ function App() {
         setLoading(false);
       });
   }, []);
+
   if (loading) {
     return <div>Loading...</div>;
   }
