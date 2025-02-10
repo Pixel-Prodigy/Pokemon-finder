@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { FaHeart } from "react-icons/fa";
-export function Pokicard({ pokeName, pokeDataUrl, ...props }) {
+
+export function Pokicard({ pokeName, pokeDataUrl }) {
   const [isLiked, setIsLiked] = useState(() => {
-    const saved = localStorage.getItem(pokeName);
-    return saved === "true";
+    return localStorage.getItem(pokeName) === "true";
   });
   const [show, setShow] = useState(false);
-  const [pokeAbilities, setPokeAbilities] = useState({
-    pokeHeight: "",
-    pokeWeight: "",
-    pokePowers: [],
-  });
+  const [pokeImage, setPokeImage] = useState("");
+  const [pokeAbilities, setPokeAbilities] = useState(null);
+  const [defaultFront, setDefaultFront] = useState(true);
+  const [frontShiny, setFrontShiny] = useState(false);
+  const [backShiny, setBackShiny] = useState(false);
+  useEffect(() => {
+    fetch(pokeDataUrl)
+      .then((res) => res.json())
+      .then((data) => setPokeImage(data.sprites.front_default))
+      .catch((error) => console.error("Error fetching image:", error));
+  }, [pokeDataUrl]);
 
   useEffect(() => {
     if (show) {
@@ -21,75 +27,119 @@ export function Pokicard({ pokeName, pokeDataUrl, ...props }) {
             pokeHeight: data.height,
             pokeWeight: data.weight,
             pokePowers: data.abilities,
+            pokeImg: data.sprites.front_default,
+            pokeShiny: data.sprites.front_shiny,
+            pokeBackShiny: data.sprites.back_shiny,
           });
+          console.log(data);
         })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
+        .catch((error) => console.error("Error fetching details:", error));
     }
   }, [show, pokeDataUrl]);
 
   useEffect(() => {
     localStorage.setItem(pokeName, isLiked);
-  }, [isLiked]);
-
+  }, [isLiked, pokeName]);
+  function selectImg() {
+    if (defaultFront) return pokeImage;
+    else if (frontShiny) return pokeAbilities.pokeShiny;
+    else if (backShiny) return pokeAbilities.pokeBackShiny;
+  }
   return (
     <>
-      {show && (
+      {show && pokeAbilities && (
         <div
-          className="fixed top-0 left-0 z-10 w-screen h-full bg-black/50"
+          className="bg-black/50 fixed top-0 left-0 z-10 flex items-center justify-center w-screen h-full"
           onClick={() => setShow(false)}
         >
           <div
-            className="absolute  z-20 flex flex-col border-4  border-white bg items-center justify-center w-80 h-80 p-3 transform rounded-md -translate-x-1/2 -translate-y-1/2 bg-black text-white  top-1/2 left-1/2"
-            style={{
-              backgroundImage:
-                "url('https://w0.peakpx.com/wallpaper/569/169/HD-wallpaper-spots-dots-black-and-white-black-thumbnail.jpg')",
-            }}
+            className="h-80 w-80 sm:w-110 relative flex flex-col items-center justify-center p-5 text-white bg-black border-4 border-white rounded-md"
+            onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-4xl underline text-red-500 font-bold -mt-6 mb-4">
-              {pokeName.toUpperCase()}
-            </h2>
-            <h2 className="text-2xl mb-3 font-semibold">Pokémon Facts</h2>
-            <p className="font-semibold text-xl mb-2">
-              Height: {pokeAbilities.pokeHeight}
-            </p>
-            <p className="font-semibold text-xl mb-2">
-              {" "}
-              Weight: {pokeAbilities.pokeWeight}
-            </p>
-            <p className="font-semibold text-xl mb-2">
-              Abilities:{" "}
-              {pokeAbilities.pokePowers.map((ability, index) => (
-                <span key={index}>{ability.ability.name}</span>
-              ))}
-            </p>
+            <div className="flex gap-6">
+              <button
+                onClick={() => {
+                  setFrontShiny(false);
+                  setBackShiny(false);
+                  setDefaultFront(true);
+                }}
+                className="bg-white text-black px-5 rounded-sm py-[1px]  duration-300 hover:scale-115 transform transition-all hover:bg-black hover:border-1 hover:text-white cursor-pointer border-white"
+              >
+                Default
+              </button>
+
+              <button
+                onClick={() => {
+                  setFrontShiny(true);
+                  setBackShiny(false);
+                  setDefaultFront(false);
+                }}
+                className="bg-white text-black px-5 rounded-sm py-[1px]  duration-300 hover:scale-115 transform transition-all hover:bg-black hover:border-1 hover:text-white cursor-pointer border-white"
+              >
+                Front Shiny
+              </button>
+              <button
+                onClick={() => {
+                  setFrontShiny(false);
+                  setBackShiny(true);
+                  setDefaultFront(false);
+                }}
+                className="bg-white text-black px-5 rounded-sm py-[1px]  duration-300 hover:scale-115 transform transition-all hover:bg-black hover:border-1 hover:text-white cursor-pointer border-white"
+              >
+                Back Shiny
+              </button>
+            </div>
+            <div className="flex items-center">
+              <div className="py-7 flex flex-col items-center justify-between h-full">
+                <h2 className="text-3xl font-bold text-red-500 underline">
+                  {pokeName.toUpperCase()}
+                </h2>
+                <img className="h-40" src={selectImg()} alt={pokeName} />
+              </div>
+
+              <div className="sm:ml-5 flex flex-col">
+                <h2 className="mb-3 text-2xl font-semibold text-orange-500 underline">
+                  Pokémon Facts
+                </h2>
+                <p className="text-xl font-semibold">
+                  Height: {pokeAbilities.pokeHeight}
+                </p>
+                <p className="text-xl font-semibold">
+                  Weight: {pokeAbilities.pokeWeight}
+                </p>
+                <p className="text-xl font-semibold">
+                  Abilities:{" "}
+                  {pokeAbilities.pokePowers.map((ability, index) => (
+                    <span key={index}> {ability.ability.name} </span>
+                  ))}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       )}
+
       <div
-        className={`grid max-w-[200px]  grid-cols-2  border-2 border-black rounded-md shadow-sm cursor-pointer py-2 px-2 h-56 transition-all ease-in-out duration-300 
-    hover:scale-105 hover:underline hover:text-2xl  
-    ${
-      isLiked
-        ? "bg-white text-black "
-        : "bg-black hover:text-black hover:bg-transparent text-white "
-    } 
-    shadow-gray-400/60`}
+        className={`grid shadow-white/40  max-w-[200px] grid-cols-2 border-3 border-black rounded-md shadow-md hover:shadow-xl cursor-pointer py-2 px-2 h-56 transition-all ease-in-out duration-300 
+        hover:scale-105 hover:underline hover:text-lg hover:text-blue-400 
+        ${
+          isLiked
+            ? "bg-red-400 text-black"
+            : "bg-black text-white hover:text-black hover:bg-transparent"
+        }
+        shadow-gray-400/60`}
         onClick={() => setShow(true)}
       >
-        <p
-          className={`self-end pl-2 transition-colors duration-300
-          }`}
-        >
-          {pokeName}
-        </p>
+        <div className="flex flex-col gap-4">
+          <img className="min-w-40 h-40" src={pokeImage} alt={pokeName} />
+          <p className="self-end">{pokeName}</p>
+        </div>
 
         <span
-          className="transition-transform transform h-fit w-fit justify-self-end active:scale-110"
+          className="h-fit w-fit justify-self-end active:scale-110 transition-transform transform"
           onClick={(e) => {
             e.stopPropagation();
-            setIsLiked((prevState) => !prevState);
+            setIsLiked((prev) => !prev);
           }}
         >
           <FaHeart

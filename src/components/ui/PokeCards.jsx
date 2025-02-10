@@ -25,7 +25,7 @@ export function PokeCards() {
     : fetchData;
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center h-full justify-center">
       <SearchBar />
       {nothingFound ? (
         <div className="grid text-center">
@@ -38,7 +38,7 @@ export function PokeCards() {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-4 bg-white sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-4 h-full bg-gray-500 overflow-auto py-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {filteredData.map((elem, index) => (
             <Pokicard key={index} pokeName={elem.name} pokeDataUrl={elem.url} />
           ))}

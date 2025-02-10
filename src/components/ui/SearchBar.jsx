@@ -11,7 +11,7 @@ export function SearchBar() {
     } else {
       setSearchNames(value.toLowerCase());
     }
-  }, [value, setSearchNames]);
+  }, [value]);
 
   return (
     <div className="flex flex-col items-center mb-6 justify-center h-fit gap-2 text-white">
@@ -20,7 +20,7 @@ export function SearchBar() {
         type="text"
         value={value}
         placeholder="Search Pokémon"
-        className="h-12 px-4 text-black border-2 rounded-md focus:outline-none w-80"
+        className="h-12 px-4 border-black border-2 rounded-md focus:outline-none w-80"
       />
     </div>
   );
