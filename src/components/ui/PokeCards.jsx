@@ -1,60 +1,46 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Pokicard } from "./Pokicard";
-import { useState, useEffect, useContext } from "react";
 import { Context } from "./Context";
 import { SearchBar } from "./SearchBar";
+
 export function PokeCards() {
-  const { fetchData, searchNames } = useContext(Context);
-  const [pokeData, setPokeData] = useState(null);
-  const { toggleShow, show } = useContext(Context);
-  const [findObj, setFindObj] = useState("");
+  const { fetchData, searchNames, setSearchNames } = useContext(Context);
   const [nothingFound, setNothingFound] = useState(false);
+
   useEffect(() => {
     if (searchNames) {
-      if (searchNames === "pokemon not found") {
-        setNothingFound(true);
-      } else {
-        const found = fetchData.find((elem) => elem.name === searchNames);
-        setFindObj(found);
-      }
+      const found = fetchData.some((elem) =>
+        elem.name.toLowerCase().includes(searchNames.toLowerCase())
+      );
+      setNothingFound(!found);
+    } else {
+      setNothingFound(false);
     }
-  }, [searchNames]);
-  if (nothingFound) {
-    return (
-      <div className="flex flex-col items-center justify-center ">
-        <SearchBar />
+  }, [searchNames, fetchData]);
 
-        <div className="grid">
-          <h3 className="text-4xl">No Pokemon found :{"("}</h3>
-          <button
-            onClick={() => setNothingFound(false)}
-            className=" justify-self-center bg-black h-10 w-56 mt-4  rounded-md text-white hover:text-black hover:bg-transparent transition-colors  hover:border-2"
-          >
-            Back
-          </button>
-        </div>
-      </div>
-    );
-  }
+  const filteredData = searchNames
+    ? fetchData.filter((elem) =>
+        elem.name.toLowerCase().includes(searchNames.toLowerCase())
+      )
+    : fetchData;
+
   return (
-    <div className="flex flex-col items-center justify-center ">
+    <div className="flex flex-col items-center justify-center">
       <SearchBar />
-      {findObj ? (
-        <div>
-          <Pokicard pokeName={findObj.name} pokeDataUrl={findObj.url} />
+      {nothingFound ? (
+        <div className="grid text-center">
+          <h3 className="text-4xl">No Pokémon found :(</h3>
           <button
-            onClick={() => setFindObj("")}
-            className="bg-black h-10 w-full mt-4  rounded-md text-white hover:text-black hover:bg-transparent transition-colors  hover:border-2"
+            onClick={() => {setNothingFound(false); setSearchNames("")}}
+            className="justify-self-center bg-black h-10 w-56 mt-4 rounded-md text-white hover:text-black hover:bg-transparent transition-colors hover:border-2"
           >
             Back
           </button>
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-4 bg-white sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-          {fetchData.map((elem, index) => (
-            <div key={index}>
-              <Pokicard pokeName={elem.name} pokeDataUrl={elem.url} />
-            </div>
+          {filteredData.map((elem, index) => (
+            <Pokicard key={index} pokeName={elem.name} pokeDataUrl={elem.url} />
           ))}
         </div>
       )}
