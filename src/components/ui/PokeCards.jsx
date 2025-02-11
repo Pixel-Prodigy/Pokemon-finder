@@ -31,14 +31,17 @@ export function PokeCards() {
         <div className="grid text-center">
           <h3 className="text-4xl">No Pokémon found :(</h3>
           <button
-            onClick={() => {setNothingFound(false); setSearchNames("")}}
+            onClick={() => {
+              setNothingFound(false);
+              setSearchNames("");
+            }}
             className="justify-self-center bg-black h-10 w-56 mt-4 rounded-md text-white hover:text-black hover:bg-transparent transition-colors hover:border-2"
           >
             Back
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-4 h-full bg-gray-500 overflow-auto py-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-4 h-full  py-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {filteredData.map((elem, index) => (
             <Pokicard key={index} pokeName={elem.name} pokeDataUrl={elem.url} />
           ))}
