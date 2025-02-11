@@ -121,7 +121,7 @@ export function Pokicard({ pokeName, pokeDataUrl }) {
 
       <div
         className={`grid shadow-white/40  max-w-[200px] grid-cols-2 border-3 border-black rounded-md shadow-md hover:shadow-xl cursor-pointer py-2 px-2 h-56 transition-all ease-in-out duration-300 
-        hover:scale-105 hover:underline hover:text-lg hover:text-blue-400 
+        hover:scale-105 hover:underline hover:text-lg hover:text-orange-500 hover:border-white 
         ${
           isLiked
             ? "bg-red-400 text-black"
