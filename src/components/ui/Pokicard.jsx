@@ -124,7 +124,7 @@ export function Pokicard({ pokeName, pokeDataUrl }) {
         hover:scale-105 hover:underline hover:text-lg hover:text-orange-500 hover:border-white 
         ${
           isLiked
-            ? "bg-red-400 text-black"
+            ? "bg-red-400 text-white hover:text-white"
             : "bg-black text-white hover:text-black hover:bg-transparent"
         }
         shadow-gray-400/60`}
